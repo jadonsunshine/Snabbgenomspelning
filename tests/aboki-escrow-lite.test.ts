@@ -9,7 +9,7 @@ describe('Aboki Escrow', () => {
   it('completes an escrow flow', () => {
     // 1. Buyer deposits
     const deposit = simnet.callPublicFn('aboki-escrow-lite', 'deposit', [Cl.standardPrincipal(seller)], buyer);
-    expect(deposit.result).toBeOk(Cl.bool(false));
+    expect(deposit.result).toBeOk(Cl.bool(true));
 
     // 2. Buyer approves
     const approve = simnet.callPublicFn('aboki-escrow-lite', 'approve', [], buyer);
