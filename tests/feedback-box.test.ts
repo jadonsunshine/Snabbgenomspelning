@@ -1,21 +1,19 @@
-
-import { describe, expect, it } from "vitest";
+import { describe, it, expect } from 'vitest';
+import { Cl } from '@stacks/transactions';
 
 const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
+const wallet1 = accounts.get("wallet_1")!;
 
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initialised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+describe('Feedback Box', () => {
+  it('logs feedback successfully', () => {
+    // 1. Log 5-star feedback
+    const log = simnet.callPublicFn(
+        'feedback-box', 
+        'log-feedback', 
+        [Cl.uint(5), Cl.stringAscii("Great job!")], 
+        wallet1
+    );
+    // Returns next ID (which should be 1)
+    expect(log.result).toBeOk(Cl.uint(1));
   });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
 });

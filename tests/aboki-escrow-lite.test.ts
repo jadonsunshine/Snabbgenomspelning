@@ -1,21 +1,22 @@
-
-import { describe, expect, it } from "vitest";
+import { describe, it, expect } from 'vitest';
+import { Cl } from '@stacks/transactions';
 
 const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
+const buyer = accounts.get("wallet_1")!;
+const seller = accounts.get("wallet_2")!;
 
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
+describe('Aboki Escrow', () => {
+  it('completes an escrow flow', () => {
+    // 1. Buyer deposits
+    const deposit = simnet.callPublicFn('aboki-escrow-lite', 'deposit', [Cl.standardPrincipal(seller)], buyer);
+    expect(deposit.result).toBeOk(Cl.bool(false));
 
-describe("example tests", () => {
-  it("ensures simnet is well initialised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+    // 2. Buyer approves
+    const approve = simnet.callPublicFn('aboki-escrow-lite', 'approve', [], buyer);
+    expect(approve.result).toBeOk(Cl.bool(true));
+
+    // 3. Seller withdraws
+    const withdraw = simnet.callPublicFn('aboki-escrow-lite', 'withdraw', [], seller);
+    expect(withdraw.result).toBeOk(Cl.bool(true));
   });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
 });
