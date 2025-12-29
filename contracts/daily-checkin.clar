@@ -1,29 +1,18 @@
-;; title: daily-checkin
-;; version:
-;; summary:
-;; description:
+;; daily-checkin.clar
+(define-map LastCheckIn principal uint)
 
-;; traits
-;;
+(define-public (check-in)
+    (let
+        (
+            (last-height (default-to u0 (map-get? LastCheckIn tx-sender)))
+            (current-height block-height)
+        )
+        ;; Ensure at least 1 block has passed since last time
+        (asserts! (> current-height last-height) (err u400))
+        (ok (map-set LastCheckIn tx-sender current-height))
+    )
+)
 
-;; token definitions
-;;
-
-;; constants
-;;
-
-;; data vars
-;;
-
-;; data maps
-;;
-
-;; public functions
-;;
-
-;; read only functions
-;;
-
-;; private functions
-;;
-
+(define-read-only (get-last-height (user principal))
+    (ok (map-get? LastCheckIn user))
+)
