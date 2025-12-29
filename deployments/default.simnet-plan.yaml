@@ -64,6 +64,21 @@ plan:
     - id: 0
       transactions:
         - emulated-contract-publish:
+            contract-name: onchain-notepad
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/onchain-notepad.clar
+            clarity-version: 4
+        - emulated-contract-publish:
+            contract-name: personal-counter
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/personal-counter.clar
+            clarity-version: 4
+        - emulated-contract-publish:
+            contract-name: simple-wallet-registry
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/simple-wallet-registry.clar
+            clarity-version: 4
+        - emulated-contract-publish:
             contract-name: status-logger
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/status-logger.clar
