@@ -5,6 +5,21 @@ authors = []
 telemetry = true
 cache_dir = './.cache'
 requirements = []
+[contracts.aboki-escrow-lite]
+path = 'contracts/aboki-escrow-lite.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.christmas-red-envelope]
+path = 'contracts/christmas-red-envelope.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.feedback-box]
+path = 'contracts/feedback-box.clar'
+clarity_version = 4
+epoch = 'latest'
+
 [contracts.onchain-notepad]
 path = 'contracts/onchain-notepad.clar'
 clarity_version = 4
