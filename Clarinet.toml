@@ -10,6 +10,11 @@ path = 'contracts/onchain-notepad.clar'
 clarity_version = 4
 epoch = 'latest'
 
+[contracts.personal-counter]
+path = 'contracts/personal-counter.clar'
+clarity_version = 4
+epoch = 'latest'
+
 [contracts.simple-wallet-registry]
 path = 'contracts/simple-wallet-registry.clar'
 clarity_version = 4
@@ -21,8 +26,8 @@ clarity_version = 4
 epoch = 'latest'
 [repl.analysis]
 passes = [
-    'check_checker',
     'call_checker',
+    'check_checker',
 ]
 
 [repl.analysis.lints]
