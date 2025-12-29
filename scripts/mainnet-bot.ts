@@ -8,47 +8,45 @@ const MNEMONIC = process.env.MNEMONIC;
 const SENDER_ADDRESS = 'SP3GAYKCWBD2PTNR77WGYWCPPR102C5E0C9MBGPS7'; 
 const NETWORK = STACKS_MAINNET; 
 
-// --- THE 7 CONTRACTS ---
 // --- THE 7 CONTRACTS (FIXED) ---
 const TARGETS = [
-  // 1. Status Logger (Working)
+  // 1. Status Logger
   { 
     name: 'status-logger', 
     func: 'write-status', 
     args: [Cl.stringUtf8("Bot Active")] 
   },
-  // 2. Personal Counter (Working)
+  // 2. Personal Counter
   { 
     name: 'personal-counter', 
     func: 'increment', 
     args: [] 
   },
-  // 3. Onchain Notepad (FIXED)
+  // 3. Onchain Notepad
   { 
     name: 'onchain-notepad', 
     func: 'update-note', 
     args: [Cl.stringAscii("Automated entry")] 
   },
-  // 4. Daily Check-in (Working)
+  // 4. Daily Check-in
   { 
     name: 'daily-checkin', 
     func: 'check-in', 
     args: [] 
   },
-  // 5. Feedback Box (FIXED)
+  // 5. Feedback Box
   { 
     name: 'feedback-box', 
     func: 'log-feedback', 
-    // Rating first, then Comment (ASCII)
     args: [Cl.uint(5), Cl.stringAscii("Great system")] 
   },
-  // 6. Simple Points (FIXED)
+  // 6. Simple Points
   { 
     name: 'simple-points', 
     func: 'earn-points', 
     args: [] 
   },
-  // 7. Wallet Registry (FIXED)
+  // 7. Wallet Registry
   { 
     name: 'simple-wallet-registry', 
     func: 'register-name', 
@@ -68,7 +66,6 @@ async function runBot() {
     const privateKey = wallet.accounts[0].stxPrivateKey;
     
     if (!privateKey) throw new Error("Failed to derive Private Key. Check Mnemonic.");
-    // console.log("🔑 Key Derived (Hidden)"); 
 
     // 2. Select Contract
     const target = TARGETS[currentIndex];
@@ -86,7 +83,7 @@ async function runBot() {
       postConditionMode: PostConditionMode.Allow,
     };
 
-    // 4. Build Transaction (The Danger Zone)
+    // 4. Build Transaction
     const transaction = await makeContractCall(txOptions);
     
     if (!transaction) {
@@ -96,6 +93,7 @@ async function runBot() {
     // 5. Broadcast
     console.log("📡 Broadcasting...");
     const broadcastResponse = await broadcastTransaction({ transaction, network: NETWORK });
+    
     if (broadcastResponse.error) {
       console.error(`❌ Transaction failed: ${broadcastResponse.reason}`);
     } else {
@@ -115,5 +113,6 @@ async function runBot() {
 // Run once immediately
 runBot();
 
-// Run again every 15 seconds (for testing) or 300000 (for 5 mins)
-setInterval(runBot, 15000);
+// Run again every 2 MINUTES (120,000 ms)
+// This prevents "TooMuchChaining" by waiting for the Bitcoin block
+setInterval(runBot, 120000);
